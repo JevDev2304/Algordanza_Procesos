@@ -21,7 +21,7 @@ Marque 6: Si desea cancelar pedido.
 """
 def ui():
     algordanza = Algordanza()
-    algordanza.cargar_info_excel()
+    algordanza.cargar_info_excel_clientes()
     opcion = 99
     while opcion != 0:
         print(INICIO)
@@ -50,6 +50,7 @@ def ui():
                 for diamante in pedido.productos.listadeDiamantes:
                     print(f"->{diamante}\n")
     algordanza.guardar_info_clientes_excel()
+
 
 
 

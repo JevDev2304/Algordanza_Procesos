@@ -173,9 +173,67 @@ class Algordanza:
             sheet[f"C{contador}"] = cliente.correo
             sheet[f"D{contador}"] = cliente.ciudad
             sheet[f"E{contador}"] = cliente.celular
-        book.save("prueba_escritura.xlsx")
 
-    def cargar_info_excel(self):
+        diccionario_pedidos = self.diccionariodepedidos
+        sheet2 = book.create_sheet("Pedidos")
+        sheet2["A1"] = "Id_cliente"
+        sheet2["B1"] = "Id_Pedido"
+        sheet2["C1"] = "Productos"
+        sheet2["D1"] = "Fecha"
+        lista_id_pedidos = []
+        lista_id_clientes = []
+        lista_productos = []
+        lista_productos_str = []
+        lista_fechas = []
+        for pedido in list(diccionario_pedidos.values()):
+            lista_id_pedidos.append(pedido.id)
+            lista_id_clientes.append(pedido.cliente.id)
+            lista_productos.append(pedido.productos)
+        for fecha in list(diccionario_pedidos.keys()):
+            lista_fechas.append(str(fecha))
+        for producto in lista_productos:
+            str_lista = ""
+            for diamante in producto.listadeDiamantes:
+                str_lista += f"{str(diamante)}\n"
+            lista_productos_str.append(str_lista)
+
+        contador_id_cliente = 1
+        contador_id_pedidos = 1
+        contador_fechas = 1
+        contador_productos = 1
+
+        for id_cliente in lista_id_clientes:
+            contador_id_cliente += 1
+            sheet2[f"A{contador_id_cliente}"] = id_cliente
+        for id_pedido in lista_id_pedidos:
+            contador_id_pedidos += 1
+            sheet2[f"B{contador_id_pedidos}"] = id_pedido
+        for producto_str in lista_productos_str:
+            print(producto_str)
+            contador_productos += 1
+            sheet2[f"C{contador_productos}"] = producto_str
+        for fecha in lista_fechas:
+            contador_fechas += 1
+            sheet2[f"D{contador_fechas}"] = fecha
+        book.save("prueba_escritura.xlsx")
+        book.close()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    def cargar_info_excel_clientes(self):
         df = pd.read_excel(r"prueba_escritura.xlsx", index_col="Id")
         diccionario = df.to_dict()
         print(diccionario)
@@ -190,8 +248,8 @@ class Algordanza:
         lista_de_celular=list(diccionario_id_celular.values())
         for i in range (len(lista_de_nombres)):
             self.registrar_cliente(lista_de_nombres[i],lista_de_celular[i],lista_de_correo[i],lista_de_ciudad[i])
-    def actualizar_ultimo_id_cliente(self):
-        Cliente.id=self.listadeclientes[-1].id
+
+
 
 
 
