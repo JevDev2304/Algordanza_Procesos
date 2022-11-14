@@ -23,8 +23,8 @@ class Diamante:
 
     def __str__(self):
         return (
-            f"El tamaño del Diamante es {self.tamano}\nEl grabado del Diamante es {self.grabado}\nEl origen del "
-            f"diamante es {self.origen}")
+            f"El tamaño del Diamante es {self.tamano} \nEl grabado del Diamante es {self.grabado} \nEl origen del "
+            f"diamante es {self.origen} \n")
 
 
 class DiamanteCorte(Diamante):
@@ -36,8 +36,8 @@ class DiamanteCorte(Diamante):
 
     def __str__(self):
         return (
-            f"El tamaño del Diamante es {self.tamano}\nEl grabado del Diamante es {self.grabado}\nEl origen del "
-            f"diamante es {self.origen}\nEl corte del diamante es {self.corte}")
+            f"El tamaño del Diamante es {self.tamano} \nEl grabado del Diamante es {self.grabado} \nEl origen del "
+            f"diamante es {self.origen} \nEl corte del diamante es {self.corte} \n")
 
 
 class Cliente:
@@ -194,7 +194,7 @@ class Algordanza:
         for producto in lista_productos:
             str_lista = ""
             for diamante in producto.listadeDiamantes:
-                str_lista += f"{str(diamante)}\n"
+                str_lista += f"{str(diamante)}"
             lista_productos_str.append(str_lista)
 
         contador_id_cliente = 1
@@ -223,19 +223,9 @@ class Algordanza:
 
 
 
-
-
-
-
-
-
-
-
-
-
     def cargar_info_excel_clientes(self):
-        df = pd.read_excel(r"prueba_escritura.xlsx", index_col="Id")
-        diccionario = df.to_dict()
+        df_clientes = pd.read_excel(r"prueba_escritura.xlsx", index_col="Id")
+        diccionario = df_clientes.to_dict()
         print(diccionario)
         diccionario_id_nombre=diccionario["Nombre"]
         diccionario_id_correo = diccionario["Correo"]
@@ -248,6 +238,29 @@ class Algordanza:
         lista_de_celular=list(diccionario_id_celular.values())
         for i in range (len(lista_de_nombres)):
             self.registrar_cliente(lista_de_nombres[i],lista_de_celular[i],lista_de_correo[i],lista_de_ciudad[i])
+        df_pedidos= pd.read_excel(r"prueba_escritura.xlsx", index_col="Id_Pedido", sheet_name="Pedidos")
+        diccionario_2= df_pedidos.to_dict()
+        print(diccionario_2)
+        diccionario_id_clientes =diccionario_2["Id_cliente"]
+        diccionario_productos =diccionario_2["Productos"]
+        diccionario_fecha = diccionario_2["Fecha"]
+        lista_id_clientes=list(diccionario_id_clientes.values())
+        lista_fechas=list(diccionario_fecha.values())
+        lista_str_productos=list(diccionario_productos.values())
+        print(f"Esta es la lista de id_clientes {lista_id_clientes}")
+        print(f"Esta es la lista de fechas {lista_fechas}")
+        print(f"Esta es la lista de productos {lista_str_productos}")
+
+
+
+
+
+
+
+
+
+
+
 
 
 
