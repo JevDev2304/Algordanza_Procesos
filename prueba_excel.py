@@ -41,11 +41,4 @@ for cliente in lista_clientes:
     sheet[f"E{contador}"] = cliente.celular
 
 
-
-
-
-
-
-
-
 book.save("prueba_escritura.xlsx")
