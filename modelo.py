@@ -10,13 +10,14 @@ Original file is located at
 from datetime import datetime
 import pandas as pd
 from openpyxl import Workbook
+from Convirtiendo_string_productos_a_productos import pasar_str_productos_a_dict
 
 
 class Diamante:
     TAMANOS = {0.2: "0.2", 0.3: "0,3", 0.4: "0,4", 0.5: "0,5", 0.6: "0,6", 0.7: "0,7", 0.8: "0,8", 0.9: "0,9", 1: "1"}
     ORIGEN = ["Mascota", "Cabello", "Cenizas"]
 
-    def __init__(self, tamano: int, grabado_laser: bool, origen: str):
+    def __init__(self, tamano: float, grabado_laser: bool, origen: str):
         self.tamano = tamano
         self.grabado = grabado_laser
         self.origen = origen
@@ -24,7 +25,7 @@ class Diamante:
     def __str__(self):
         return (
             f"El tamaño del Diamante es {self.tamano} \nEl grabado del Diamante es {self.grabado} \nEl origen del "
-            f"diamante es {self.origen} \n")
+            f"diamante es {self.origen} \n\n")
 
 
 class DiamanteCorte(Diamante):
@@ -37,7 +38,7 @@ class DiamanteCorte(Diamante):
     def __str__(self):
         return (
             f"El tamaño del Diamante es {self.tamano} \nEl grabado del Diamante es {self.grabado} \nEl origen del "
-            f"diamante es {self.origen} \nEl corte del diamante es {self.corte} \n")
+            f"diamante es {self.origen} \nEl corte del diamante es {self.corte} \n\n")
 
 
 class Cliente:
@@ -147,6 +148,7 @@ class Algordanza:
 
     def pasar_str_a_datetime(self, fecha):
         fecha_string = datetime.strptime(fecha, "%d/%m/%Y")
+        fecha_string=fecha_string.strftime("%d/%m/%Y")
         return fecha_string
 
     def registrar_pedido(self, id_cliente: str, fecha: str):
@@ -156,6 +158,10 @@ class Algordanza:
         productos.agregar_productos_a_lista()
         pedido = Pedido(cliente, fecha_datetime, productos)
         self.diccionariodepedidos[pedido.fecha] = pedido
+    def registrar_pedido_cargar_info(self,id_cliente,fecha,productos):
+
+        pass
+
     def guardar_info_clientes_excel(self):
         lista_info_clientes=self.listadeclientes
         book = Workbook()
@@ -247,9 +253,50 @@ class Algordanza:
         lista_id_clientes=list(diccionario_id_clientes.values())
         lista_fechas=list(diccionario_fecha.values())
         lista_str_productos=list(diccionario_productos.values())
+        lista_organizada_solovalores=[]
+        lista_productos_objeto=[]
+        for productos in lista_str_productos:
+            lista_organizada_solovalores.append(pasar_str_productos_a_dict(productos))
+        print(f"Esta es la lista de productos {lista_organizada_solovalores}")
         print(f"Esta es la lista de id_clientes {lista_id_clientes}")
         print(f"Esta es la lista de fechas {lista_fechas}")
         print(f"Esta es la lista de productos {lista_str_productos}")
+        for pedido in lista_organizada_solovalores:
+            producto = Productos()
+            lista_diamantes_brutos=pedido["Diamantes_Bruto"]
+            lista_diamantes_cortes=pedido["diamante_corte"]
+            for lista_diamante_bruto in lista_diamantes_brutos:
+                tamano=float(lista_diamante_bruto[0].strip())
+                grabado=bool(lista_diamante_bruto[1].strip())
+                origen=str(lista_diamante_bruto[2].strip())
+                producto.agregar_diamante_sin_corte_a_lista_productos(tamano,grabado,origen)
+            for lista_diamante_corte in lista_diamantes_cortes:
+                tamano=float(lista_diamante_corte[0].strip())
+                grabado=bool(lista_diamante_corte[1].strip())
+                origen=str(lista_diamante_corte[2].strip())
+                corte=str(lista_diamante_corte[3].strip())
+                producto.agregar_diamante_con_corte_a_lista_productos(corte,tamano,grabado,origen)
+            lista_productos_objeto.append(producto)
+        print(lista_productos_objeto)
+        print(lista_fechas)
+        print(lista_id_clientes)
+        for i in range (len(lista_id_clientes)):
+            fecha=self.pasar_str_a_datetime(lista_fechas[i])
+            cliente=self.obtener_cliente_por_id(lista_id_clientes[i])
+            productos=lista_productos_objeto[i]
+            pedido=Pedido(cliente,fecha,productos)
+            self.diccionariodepedidos[pedido.fecha] = pedido
+
+
+
+
+
+
+
+
+
+
+
 
 
 
