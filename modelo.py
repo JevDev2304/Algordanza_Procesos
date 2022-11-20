@@ -54,7 +54,6 @@ class Cliente:
         self.celular = celular
         self.correo = correo
         self.ciudad = ciudad
-        self.direccion = None
 
 
 class Productos:
