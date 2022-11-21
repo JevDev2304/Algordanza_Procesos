@@ -118,8 +118,20 @@ class Algordanza:
         self.listadeclientes: list[Cliente] = []
 
     def registrar_cliente(self, nombre: str, celular: str, correo: str, ciudad: str):
-        cliente = Cliente(nombre, celular, correo, ciudad)
-        self.listadeclientes.append(cliente)
+        try:
+            cliente = Cliente(nombre, celular, correo, ciudad)
+            if cliente not in self.listadeclientes:
+                self.listadeclientes.append(cliente)
+            elif cliente in self.listadeclientes:
+                raise Exception("El cliente ya se encuentra registrado.")
+        except Exception as error:
+            raise error
+
+
+
+
+
+
 
     def obtener_id_cliente(self, nombre):
         lista_clientes_nr = []
@@ -144,6 +156,8 @@ class Algordanza:
             if cliente.id == id:
                 print(f"Elimine a {cliente.nombre}.")
                 self.listadeclientes.remove(cliente)
+            else:
+                raise Exception("El cliente con el id ingresado, no se encuentra registrado")
 
     def pasar_str_a_datetime(self, fecha):
         fecha_string = datetime.strptime(fecha, "%d/%m/%Y")
@@ -157,9 +171,6 @@ class Algordanza:
         productos.agregar_productos_a_lista()
         pedido = Pedido(cliente, fecha_datetime, productos)
         self.diccionariodepedidos[pedido.fecha] = pedido
-    def registrar_pedido_cargar_info(self,id_cliente,fecha,productos):
-
-        pass
 
     def guardar_info_clientes_excel(self):
         lista_info_clientes=self.listadeclientes
@@ -220,7 +231,7 @@ class Algordanza:
         for fecha in lista_fechas:
             contador_fechas += 1
             sheet2[f"D{contador_fechas}"] = fecha
-        book.save("prueba_escritura.xlsx")
+        book.save("Base_Datos.xlsx")
         book.close()
 
 
@@ -229,7 +240,7 @@ class Algordanza:
 
 
     def cargar_info_excel_clientes(self):
-        df_clientes = pd.read_excel(r"prueba_escritura.xlsx", index_col="Id")
+        df_clientes = pd.read_excel(r"Base_Datos.xlsx", index_col="Id")
         diccionario = df_clientes.to_dict()
         print(diccionario)
         diccionario_id_nombre=diccionario["Nombre"]
@@ -243,7 +254,7 @@ class Algordanza:
         lista_de_celular=list(diccionario_id_celular.values())
         for i in range (len(lista_de_nombres)):
             self.registrar_cliente(lista_de_nombres[i],lista_de_celular[i],lista_de_correo[i],lista_de_ciudad[i])
-        df_pedidos= pd.read_excel(r"prueba_escritura.xlsx", index_col="Id_Pedido", sheet_name="Pedidos")
+        df_pedidos= pd.read_excel(r"Base_Datos.xlsx", index_col="Id_Pedido", sheet_name="Pedidos")
         diccionario_2= df_pedidos.to_dict()
         print(diccionario_2)
         diccionario_id_clientes =diccionario_2["Id_cliente"]
