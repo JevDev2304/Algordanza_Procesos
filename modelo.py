@@ -170,7 +170,7 @@ class Algordanza:
         productos = Productos()
         productos.agregar_productos_a_lista()
         pedido = Pedido(cliente, fecha_datetime, productos)
-        self.diccionariodepedidos[pedido.fecha] = pedido
+        self.diccionariodepedidos[pedido] = pedido.fecha
 
     def guardar_info_clientes_excel(self):
         lista_info_clientes=self.listadeclientes
@@ -201,11 +201,11 @@ class Algordanza:
         lista_productos = []
         lista_productos_str = []
         lista_fechas = []
-        for pedido in list(diccionario_pedidos.values()):
+        for pedido in list(diccionario_pedidos.keys()):
             lista_id_pedidos.append(pedido.id)
             lista_id_clientes.append(pedido.cliente.id)
             lista_productos.append(pedido.productos)
-        for fecha in list(diccionario_pedidos.keys()):
+        for fecha in list(diccionario_pedidos.values()):
             lista_fechas.append(str(fecha))
         for producto in lista_productos:
             str_lista = ""
@@ -295,7 +295,7 @@ class Algordanza:
             cliente=self.obtener_cliente_por_id(lista_id_clientes[i])
             productos=lista_productos_objeto[i]
             pedido=Pedido(cliente,fecha,productos)
-            self.diccionariodepedidos[pedido.fecha] = pedido
+            self.diccionariodepedidos[pedido] = pedido.fecha
 
 
 

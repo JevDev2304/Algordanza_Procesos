@@ -20,6 +20,7 @@ class Controller:
             tk.messagebox.showerror(str(error),str(error))
         else:
             tk.messagebox.showinfo("Se ingreso correctamente el cliente","No ocurrio ningún problema")
+            self.modelo.guardar_info_clientes_excel()
             self.vista.volver_menu()
     def create_window_delete_user(self):
         self.vista.create_window_delete_user(self)
@@ -33,6 +34,7 @@ class Controller:
             tk.messagebox.showerror(str(error),str(error))
         else:
             tk.messagebox.showinfo("Se elimino correctamente el cliente", "No ocurrio ningún problema")
+            self.modelo.guardar_info_clientes_excel()
             self.vista.volver_menu_delete()
     def getinfoorder(self):
         pass
