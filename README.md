@@ -2,7 +2,7 @@
 ###### En este repositorio encontraras el proyecto final de Procesos de Negocios y Tecnologías de la información, hecho por Juanes🤓, Cristian🤓 y Rostin 🙂 , del curso dado por la Universidad de Medellín 🏢.
 ### ¿Qué hay implementado?🤔
 
-- gestión de la información de Usuarios para Algordanza Colombia. ℹ️
+- Gestión de la información de Usuarios para Algordanza Colombia. ℹ️
 
 - Programa 100% hecho en Python.🐍
 
