@@ -30,15 +30,28 @@ class UI:
         self.register_city = tk.PhotoImage(file = "imagenes/Registrar_Ciudad.png")
         self.delete_user_id= tk.PhotoImage(file = "imagenes/Eliminar_id.png")
 
+        self.register_name_small = self.register_name.subsample(2)
+        self.register_cell_small = self.register_cell.subsample(2)
+        self.register_mail_small = self.register_mail.subsample(2)
+        self.register_city_small = self.register_city.subsample(2)
+
+
         self.menu=tk.PhotoImage(file="imagenes/volver_menu_principal.png")
         self.fecha= tk.PhotoImage(file="imagenes/Fecha.png")
         self.diamante_bruto= tk.PhotoImage(file="imagenes/Diamante_Bruto.png")
         self.diamante_corte= tk.PhotoImage(file= "imagenes/Diamante_corte.png")
         self.carrito_productos= tk.PhotoImage(file ="imagenes/Carrito_Productos.png")
+
         self.ingresar_corte= tk.PhotoImage(file="imagenes/ingresar_corte.png")
+        self.ingresar_corte_small=self.ingresar_corte.subsample(2)
+
         self.quilates= tk.PhotoImage(file="imagenes/Quilates.png")
+        self.quilates_small= self.quilates.subsample(2)
+
         self.grabado= tk.PhotoImage(file= "imagenes/Grabado.png")
+        self.grabado_small = self.grabado.subsample(2)
         self.origen= tk.PhotoImage(file="imagenes/origen.png")
+        self.origen_small= self.origen.subsample(2)
         self.add_diamond= tk.PhotoImage(file="imagenes/Agregar_diamante.png")
         self.pedido_id = tk.PhotoImage(file= "imagenes/Id_pedido.png")
 
@@ -133,26 +146,26 @@ class UI:
         self.ventana_user_register_title.config(font=("Candara", 48), fg="white", image=self.logo_pequeno, background="white")
         self.ventana_user_register_title.grid(row=0, column=1)
 
-        self.label_name = tk.Label(self.ventana_user_register_buttons_frame,image=self.register_name,borderwidth=0, background="white")
+        self.label_name = tk.Label(self.ventana_user_register_buttons_frame,image=self.register_name_small,borderwidth=0, background="white")
         self.label_name.grid(row=0,column=1)
         self.entry_name = tk.Entry(self.ventana_user_register_buttons_frame, font=("Calibri bold", 25), fg="white", background="#023671",justify="center",bd=4, width=35, borderwidth=0,)
         self.entry_name.grid(row=0,column=2)
 
-        self.label_cel = tk.Label(self.ventana_user_register_buttons_frame, image=self.register_cell, borderwidth=0,
+        self.label_cel = tk.Label(self.ventana_user_register_buttons_frame, image=self.register_cell_small, borderwidth=0,
                                    background="white")
         self.label_cel.grid(row=1, column=1)
         self.entry_cel = tk.Entry(self.ventana_user_register_buttons_frame, font=("Calibri bold", 25), fg="white",
                                    background="#023671", justify="center", bd=4, width=35, borderwidth=0, )
         self.entry_cel.grid(row=1, column=2)
 
-        self.label_correo = tk.Label(self.ventana_user_register_buttons_frame, image=self.register_mail, borderwidth=0,
+        self.label_correo = tk.Label(self.ventana_user_register_buttons_frame, image=self.register_mail_small, borderwidth=0,
                                    background="white")
         self.label_correo.grid(row=2, column=1)
         self.entry_correo = tk.Entry(self.ventana_user_register_buttons_frame, font=("Calibri bold", 25), fg="white",
                                    background="#023671", justify="center", bd=4, width=35, borderwidth=0, )
         self.entry_correo.grid(row=2, column=2)
 
-        self.label_ciudad = tk.Label(self.ventana_user_register_buttons_frame, image=self.register_city, borderwidth=0,
+        self.label_ciudad = tk.Label(self.ventana_user_register_buttons_frame, image=self.register_city_small, borderwidth=0,
                                      background="white")
         self.label_ciudad.grid(row=3, column=1)
         self.entry_ciudad = tk.Entry(self.ventana_user_register_buttons_frame, font=("Calibri bold", 25), fg="white",
@@ -265,6 +278,11 @@ class UI:
         self.ventana_user_register.destroy()
         self.principal_window.ventana.iconify()
         self.principal_window.ventana.state("zoomed")
+    def volver_menu_diamante_corte(self):
+        self.ventana_diamond_ashes.destroy()
+        self.principal_window.ventana_pr.iconify()
+        self.principal_window.ventana.state("zoomed")
+
 
     def volver_menu_delete(self):
         self.ventana_user_delete_register.destroy()
@@ -452,27 +470,27 @@ class UI:
         self.ventana_diamond_ashes_register_title.config(font=("Candara", 48), fg="white", image=self.logo_pequeno, background="white")
         self.ventana_diamond_ashes_register_title.grid(row=0, column=1)
 
-        self.label_corte = tk.Label(self.ventana_diamond_ashes_buttons_frame, image=self.ingresar_corte,
+        self.label_corte = tk.Label(self.ventana_diamond_ashes_buttons_frame, image=self.ingresar_corte_small,
                                                borderwidth=0, background="white", )
         self.label_corte.grid(row=0, column=1)
         self.entry_corte= tk.Entry(self.ventana_diamond_ashes_buttons_frame,font=("Calibri bold", 25), fg="white",
                                    background="#023671", justify="center", bd=4, width=35, borderwidth=0 )
         self.entry_corte.grid(row=0,column=2)
-        self.label_tamano= tk.Label(self.ventana_diamond_ashes_buttons_frame, image=self.quilates,
+        self.label_tamano= tk.Label(self.ventana_diamond_ashes_buttons_frame, image=self.quilates_small,
                                                borderwidth=0, background="white", )
 
         self.entry_tamano=tk.Entry(self.ventana_diamond_ashes_buttons_frame,font=("Calibri bold", 25), fg="white",
                                    background="#023671", justify="center", bd=4, width=35, borderwidth=0 )
         self.label_tamano.grid(row=1, column=1)
         self.entry_tamano.grid(row=1,column=2)
-        self.label_grabado=tk.Label(self.ventana_diamond_ashes_buttons_frame, image=self.grabado,
+        self.label_grabado=tk.Label(self.ventana_diamond_ashes_buttons_frame, image=self.grabado_small,
                                                borderwidth=0, background="white" )
 
         self.entry_grabado=tk.Entry(self.ventana_diamond_ashes_buttons_frame,font=("Calibri bold", 25), fg="white",
                                    background="#023671", justify="center", bd=4, width=35, borderwidth=0 )
         self.label_grabado.grid(row=2,column=1)
         self.entry_grabado.grid(row=2, column=2)
-        self.label_origen=tk.Label(self.ventana_diamond_ashes_buttons_frame, image=self.origen, borderwidth=0, background="white")
+        self.label_origen=tk.Label(self.ventana_diamond_ashes_buttons_frame, image=self.origen_small, borderwidth=0, background="white")
         self.entry_origen=tk.Entry(self.ventana_diamond_ashes_buttons_frame,font=("Calibri bold", 25), fg="white",
                                    background="#023671", justify="center", bd=4, width=35, borderwidth=0 )
         self.label_origen.grid(row=3,column=1)
@@ -483,7 +501,7 @@ class UI:
 
 
         self.button_back_diamond_ashes = tk.Button(self.ventana_diamond_ashes_buttons_frame, image=self.menu, borderwidth=0,
-                                     background="white", command=controller.volver_eleccion_diamantes_principal)
+                                     background="white", command=self.mostrar_menu_diamante_corte)
         self.button_add_diamond = tk.Button(self.ventana_diamond_ashes_buttons_frame, image=self.add_diamond,
                                               borderwidth=0,
                                               background="white", command=controller.get_info_diamante_corte)
@@ -536,7 +554,7 @@ class UI:
         self.ventana_raw_diamond_title.grid(row=0, column=1)
 
 
-        self.label_raw_tamano= tk.Label(self.ventana_raw_diamond_buttons_frame, image=self.quilates,
+        self.label_raw_tamano= tk.Label(self.ventana_raw_diamond_buttons_frame, image=self.quilates_small,
                                                borderwidth=0, background="white", )
 
         self.entry_tamano_raw=tk.Entry(self.ventana_raw_diamond_buttons_frame,font=("Calibri bold", 25), fg="white",
@@ -544,14 +562,14 @@ class UI:
         self.label_raw_tamano.grid(row=1, column=1)
         self.entry_tamano_raw.grid(row=1,column=2)
 
-        self.label_grabado_raw=tk.Label(self.ventana_raw_diamond_buttons_frame, image=self.grabado,
+        self.label_grabado_raw=tk.Label(self.ventana_raw_diamond_buttons_frame, image=self.grabado_small,
                                                borderwidth=0, background="white" )
 
         self.entry_grabado_raw=tk.Entry(self.ventana_raw_diamond_buttons_frame,font=("Calibri bold", 25), fg="white",
                                    background="#023671", justify="center", bd=4, width=35, borderwidth=0 )
         self.label_grabado_raw.grid(row=2,column=1)
         self.entry_grabado_raw.grid(row=2, column=2)
-        self.label_origen_raw=tk.Label(self.ventana_raw_diamond_buttons_frame, image=self.origen, borderwidth=0, background="white")
+        self.label_origen_raw=tk.Label(self.ventana_raw_diamond_buttons_frame, image=self.origen_small, borderwidth=0, background="white")
         self.entry_origen_raw =tk.Entry(self.ventana_raw_diamond_buttons_frame,font=("Calibri bold", 25), fg="white",
                                    background="#023671", justify="center", bd=4, width=35, borderwidth=0 )
         self.label_origen_raw.grid(row=3,column=1)
@@ -626,6 +644,12 @@ class UI:
         self.ventana_raw_diamond.destroy()
         self.ventana_user_register.iconify()
         self.ventana_user_register.state("zoomed")
+    def mostrar_menu_diamante_corte(self):
+        self.ventana_diamond_ashes.destroy()
+        self.ventana_user_register.iconify()
+        self.ventana_user_register.state("zoomed")
+
+
 
     def create_window_delete_order(self,controller):
         self.principal_window.ventana.withdraw()

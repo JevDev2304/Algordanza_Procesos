@@ -100,7 +100,11 @@ class Controller:
 
     def volver_eleccion_diamantes_principal(self):
         self.vista.volver_menu()
-        self.modelo.productos=Productos()
+
+
+    def volver_eleccion_diamantes_corte(self):
+        self.vista.volver_menu_diamante_corte()
+
 
     def registrar_pedido(self):
         try:
