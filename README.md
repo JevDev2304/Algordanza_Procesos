@@ -8,7 +8,7 @@
 
 - Interfaz Grafica hecha en tkinter. 😲
 
-- Implementaciòn de POO. 👨🏻‍💻
+- Implementación de POO. 👨🏻‍💻
 
 - Entre otras muchas librerias que se usaron para la implementación del proyecto.📖
 
