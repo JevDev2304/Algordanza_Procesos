@@ -88,10 +88,19 @@ class Productos:
                     "Ingrese 1 si desea ingresar Diamante\nIngrese 0 si no desea ingresar más Diamantes\nIngrese la respuesta: "))
 
     def agregar_diamante_sin_corte_a_lista_productos(self, tamano, grabado, origen):
+        if (grabado == "si"):
+            grabado= True
+        elif (grabado =="no"):
+            grabado = False
         diamante = Diamante(tamano, grabado, origen)
         self.listadeDiamantes.append(diamante)
 
     def agregar_diamante_con_corte_a_lista_productos(self, corte, tamano, grabado_laser, origen):
+        if (grabado_laser == "si"):
+            grabado_laser= True
+        elif (grabado_laser =="no"):
+            grabado_laser = False
+
         diamante_con_corte = DiamanteCorte(corte, tamano, grabado_laser, origen)
         self.listadeDiamantes.append(diamante_con_corte)
 
@@ -116,6 +125,7 @@ class Algordanza:
     def __init__(self):
         self.diccionariodepedidos: dict[Pedido] = {}
         self.listadeclientes: list[Cliente] = []
+        self.producto:Productos=Productos()
 
     def registrar_cliente(self, nombre: str, celular: str, correo: str, ciudad: str):
         try:
@@ -138,7 +148,7 @@ class Algordanza:
         for cliente in self.listadeclientes:
             if cliente.nombre == nombre:
                 lista_clientes_nr.append(cliente)
-        print(f"El nombre del cliente es {nombre}\n\n")
+
         for cliente_repetido in lista_clientes_nr:
             print(
                 f"La ciudad del cliente es {cliente_repetido.ciudad}\nEl correo del cliente es {cliente_repetido.correo}\nEl id del cliente es {cliente_repetido.id}\n\n")
@@ -148,28 +158,29 @@ class Algordanza:
         for cliente in self.listadeclientes:
             if cliente.id == id:
                 cliente_retornar = cliente
-                print(cliente_retornar)
+
         return cliente_retornar
 
+
     def eliminar_cliente_por_id(self, id):
+        existe=False
         for cliente in self.listadeclientes:
             if cliente.id == id:
-                print(f"Elimine a {cliente.nombre}.")
                 self.listadeclientes.remove(cliente)
-            else:
-                raise Exception("El cliente con el id ingresado, no se encuentra registrado")
+                existe=True
+
+
 
     def pasar_str_a_datetime(self, fecha):
         fecha_string = datetime.strptime(fecha, "%d/%m/%Y")
         fecha_string=fecha_string.strftime("%d/%m/%Y")
         return fecha_string
 
-    def registrar_pedido(self, id_cliente: str, fecha: str):
+    def registrar_pedido(self, id_cliente: str, fecha: str,productos:Productos):
         cliente = self.obtener_cliente_por_id(int(id_cliente))
         fecha_datetime = self.pasar_str_a_datetime(fecha)
-        productos = Productos()
-        productos.agregar_productos_a_lista()
-        pedido = Pedido(cliente, fecha_datetime, productos)
+        productos=productos
+        pedido=Pedido(cliente,fecha_datetime,productos)
         self.diccionariodepedidos[pedido] = pedido.fecha
 
     def guardar_info_clientes_excel(self):
@@ -225,13 +236,14 @@ class Algordanza:
             contador_id_pedidos += 1
             sheet2[f"B{contador_id_pedidos}"] = id_pedido
         for producto_str in lista_productos_str:
-            print(producto_str)
+
             contador_productos += 1
             sheet2[f"C{contador_productos}"] = producto_str
         for fecha in lista_fechas:
             contador_fechas += 1
             sheet2[f"D{contador_fechas}"] = fecha
-        book.save("Base_Datos.xlsx")
+        book.save(".Base_Datos.xlsx")
+        book.save("Editable.xlsx")
         book.close()
 
 
@@ -240,9 +252,9 @@ class Algordanza:
 
 
     def cargar_info_excel_clientes(self):
-        df_clientes = pd.read_excel(r"Base_Datos.xlsx", index_col="Id")
+        df_clientes = pd.read_excel(r".Base_Datos.xlsx", index_col="Id")
         diccionario = df_clientes.to_dict()
-        print(diccionario)
+
         diccionario_id_nombre=diccionario["Nombre"]
         diccionario_id_correo = diccionario["Correo"]
         diccionario_id_ciudad = diccionario["Ciudad"]
@@ -254,9 +266,8 @@ class Algordanza:
         lista_de_celular=list(diccionario_id_celular.values())
         for i in range (len(lista_de_nombres)):
             self.registrar_cliente(lista_de_nombres[i],lista_de_celular[i],lista_de_correo[i],lista_de_ciudad[i])
-        df_pedidos= pd.read_excel(r"Base_Datos.xlsx", index_col="Id_Pedido", sheet_name="Pedidos")
+        df_pedidos= pd.read_excel(r".Base_Datos.xlsx", index_col="Id_Pedido", sheet_name="Pedidos")
         diccionario_2= df_pedidos.to_dict()
-        print(diccionario_2)
         diccionario_id_clientes =diccionario_2["Id_cliente"]
         diccionario_productos =diccionario_2["Productos"]
         diccionario_fecha = diccionario_2["Fecha"]
@@ -267,10 +278,7 @@ class Algordanza:
         lista_productos_objeto=[]
         for productos in lista_str_productos:
             lista_organizada_solovalores.append(pasar_str_productos_a_dict(productos))
-        print(f"Esta es la lista de productos {lista_organizada_solovalores}")
-        print(f"Esta es la lista de id_clientes {lista_id_clientes}")
-        print(f"Esta es la lista de fechas {lista_fechas}")
-        print(f"Esta es la lista de productos {lista_str_productos}")
+
         for pedido in lista_organizada_solovalores:
             producto = Productos()
             lista_diamantes_brutos=pedido["Diamantes_Bruto"]
@@ -287,15 +295,38 @@ class Algordanza:
                 corte=str(lista_diamante_corte[3].strip())
                 producto.agregar_diamante_con_corte_a_lista_productos(corte,tamano,grabado,origen)
             lista_productos_objeto.append(producto)
-        print(lista_productos_objeto)
-        print(lista_fechas)
-        print(lista_id_clientes)
+
         for i in range (len(lista_id_clientes)):
             fecha=self.pasar_str_a_datetime(lista_fechas[i])
             cliente=self.obtener_cliente_por_id(lista_id_clientes[i])
             productos=lista_productos_objeto[i]
             pedido=Pedido(cliente,fecha,productos)
             self.diccionariodepedidos[pedido] = pedido.fecha
+
+    def crear_productos(self):
+        productos=Productos()
+        return productos
+    def crear_dimante_corte(self,corte,tamano,grabado,origen):
+        if grabado =="si":
+            grabado = True
+        elif grabado == "no":
+            grabado = False
+
+        diamante_corte=DiamanteCorte(corte,tamano,grabado,origen)
+        return diamante_corte
+    def eliminar_pedido(self,id_pedido):
+            existe=False
+            for pedido in list(self.diccionariodepedidos.keys()):
+                if pedido.id == id_pedido:
+                    del self.diccionariodepedidos[pedido]
+                    existe=True
+            if existe == False:
+                raise Exception("No se encontro el pedido por ID")
+
+
+
+
+
 
 
 
