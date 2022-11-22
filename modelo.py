@@ -158,6 +158,8 @@ class Algordanza:
         for cliente in self.listadeclientes:
             if cliente.id == id:
                 cliente_retornar = cliente
+        if cliente_retornar==None:
+            raise Exception("No se encuentra el cliente")
 
         return cliente_retornar
 
