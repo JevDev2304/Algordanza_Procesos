@@ -594,13 +594,21 @@ class UI:
             corte=self.entry_corte.get()
             tamano=self.entry_tamano.get()
             grabado=self.entry_grabado.get()
+            grabado= grabado.lower()
             origen=self.entry_origen.get()
             test_corte=corte.isalpha()
             test_tamano=float(tamano)
             test_grabado=((grabado.lower()=="no") or (grabado.lower()=="si"))
             test_origen=origen.isalpha()
+            lista_cortes=["brillante","esmeralda","asscher","princesa","radiante","corazon"]
+            lista_origen=["cenizas","mascota","cabello"]
+
             if test_corte is False:
                 raise Exception ("Ingresa bien el corte")
+            if corte.lower() not in lista_cortes:
+                raise Exception("Ingresa un corte valido")
+            if origen.lower() not in lista_origen:
+                raise Exception("Ingresa un Origen Valido")
             if (test_tamano<0) or (test_tamano>1):
                 raise Exception("Ingresa bien el peso.\nLos quilates del Diamantes son de 0.2 hasta 1 quilate")
             if test_grabado is False:
@@ -618,10 +626,14 @@ class UI:
         try:
             tamano = self.entry_tamano_raw.get()
             grabado = self.entry_grabado_raw.get()
+            grabado = grabado.lower()
             origen = self.entry_origen_raw.get()
             test_tamano = float(tamano)
             test_grabado = ((grabado.lower() == "no") or (grabado.lower() == "si"))
             test_origen = origen.isalpha()
+            lista_origen = ["cenizas", "mascota", "cabello"]
+            if origen.lower() not in lista_origen:
+                raise Exception("Ingresa un Origen Valido")
             if (test_tamano < 0) or (test_tamano > 1):
                 raise Exception("Ingresa bien el peso.\nLos quilates del Diamantes son de 0.2 hasta 1 quilate")
             if test_grabado is False:
@@ -629,7 +641,7 @@ class UI:
             if test_origen is False:
                 raise Exception("El origen esta mal ingresado, ingresalo nuevamente")
         except ValueError:
-            tk.messagebox.showinfo("Ingresa bien el tamaño del diamante (0.2-1)")
+            tk.messagebox.showinfo("Ingresa bien el tamaño del diamante (0.2-1)","Ingresa bien el tamaño del diamante (0.2-1)")
         except Exception as error:
             tk.messagebox.showinfo(str(error), str(error))
         else:
